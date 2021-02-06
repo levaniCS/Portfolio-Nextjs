@@ -1,0 +1,33 @@
+{
+  "name": "portfolio-nextjs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "env-cmd -f .env node server.js",
+    "build": "env-cmd -f .env next build",
+    "start": "env-cmd -f .env NODE_ENV=production node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@auth0/nextjs-auth0": "^0.16.0",
+    "axios": "^0.21.1",
+    "bootstrap": "^4.5.3",
+    "env-cmd": "10.1.0",
+    "express": "^4.17.1",
+    "formik": "^2.2.6",
+    "isomorphic-unfetch": "^3.1.0",
+    "moment": "^2.29.1",
+    "next": "10.0.4",
+    "next-routes": "^1.4.2",
+    "node-sass": "^5.0.0",
+    "react": "17.0.1",
+    "react-datepicker": "^3.4.1",
+    "react-dom": "17.0.1",
+    "react-typed": "^1.2.0",
+    "reactstrap": "^8.8.1",
+    "sass": "^1.32.2"
+  }
+}
