@@ -1,10 +1,27 @@
 const express = require('express');
 const next = require('next');
+const mongoose = require('mongoose')
 const routes = require('./routes');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = routes.getRequestHandler(app);
+
+// Mongo config
+const DB = process.env.DATABASE.replace(
+  '<DB>',
+  dev ? process.env.MONGO_DEV_DB : process.env.MONGO_PROD_DB
+);
+mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('DB connection successful!'))
+  .catch(err => console.error(err))
+
 
 app.prepare()
 .then(() => {

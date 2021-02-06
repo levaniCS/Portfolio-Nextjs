@@ -6,16 +6,23 @@ import { Row, Col } from 'reactstrap'
 import PortfolioCreateForm from '../components/portfolios/PortfolioNewForm'
 
 
-const PortfolioNew = () => (
-  <BaseLayout>
-    <BasePage className="portfolio-create-page" title="Create new Portfolio">
-    <Row>
-      <Col>
-        <PortfolioCreateForm />
-      </Col>
-    </Row>
-    </BasePage>
-  </BaseLayout>
-)
+const PortfolioNew = () => {
+
+  const savePortfolio = (portfolioData) => {
+    alert(JSON.stringify(portfolioData, null, 2))
+  }
+
+  return (
+    <BaseLayout>
+      <BasePage className="portfolio-create-page" title="Create new Portfolio">
+      <Row>
+        <Col>
+          <PortfolioCreateForm onSubmit={savePortfolio} />
+        </Col>
+      </Row>
+      </BasePage>
+    </BaseLayout>
+  )
+}
 
 export default PortfolioNew;

@@ -7,18 +7,13 @@ import FormInput from '../../components/form/FormInput'
 import { validateInputs, INITIAL_VALUES } from '../../utils/validate'
 
 
-const PortfolioNewForm = () => {
+const PortfolioNewForm = (props) => {
   return (
     <div>
       <Formik
         initialValues={INITIAL_VALUES}
         validate={validateInputs}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2))
-            setSubmitting(false)
-          }, 400)
-        }}
+        onSubmit={props.onSubmit}
       >
         {({ isSubmitting }) => (
           <Form>
