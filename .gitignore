@@ -3,3 +3,6 @@
 
 # dotenv environment variable files
 .env*
+/config/.env*
+/config/.env.dev
+/config/.env.prod

@@ -1,11 +1,15 @@
 const express = require('express');
 const next = require('next');
 const mongoose = require('mongoose')
-const routes = require('./routes');
+const routes = require('../routes');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = routes.getRequestHandler(app);
+
+console.log(`./config/.env.${process.env.NODE_ENV || 'development'}`)
+console.log(process.env.DATABASE)
+console.log(process.env.TEST)
 
 // Mongo config
 const DB = process.env.DATABASE.replace(
