@@ -48,7 +48,7 @@ class Portfolios extends React.Component {
     const { posts } = this.props;
 
     return (
-      <BaseLayout>
+      <BaseLayout {...this.props.auth}>
         <BasePage className="portfolio-page" title="Portfolios">
           <h1> I am Portfolios Page </h1>
           <Row>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import {
   Collapse,
@@ -9,6 +9,7 @@ import {
   NavItem,
 } from 'reactstrap';
 
+import auth0 from '../../services/auth0'
 
 const BsNavLink = ({ route, title }) => (
   <Link href={route}>
@@ -17,13 +18,13 @@ const BsNavLink = ({ route, title }) => (
 )
 
 const Login = () => (
-  <a href="/api/login" className="nav-link port-navbar-link clickable"> Login </a>
+  <span onClick={auth0.login} className="nav-link port-navbar-link clickable"> Login </span>
 )
 const Logout = () => (
-  <a href="/api/logout" className="nav-link port-navbar-link clickable"> Logout </a>
+  <span onClick={auth0.logout} className="nav-link port-navbar-link clickable"> Logout </span>
 )
 
-const Header = ({className, user}) => {
+const Header = ({className, isAuthenticated}) => {
   const [isOpen, setIsOpen] = useState(false)
   const toggle = () => setIsOpen(!isOpen)
 
@@ -51,7 +52,7 @@ const Header = ({className, user}) => {
               <BsNavLink route='/cv' title="Cv" />
             </NavItem>
             <NavItem className="port-navbar-item">
-              {!user ? <Login /> : <Logout />}
+              {!isAuthenticated ? <Login /> : <Logout />}
             </NavItem>
           </Nav>
         </Collapse>

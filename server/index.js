@@ -7,29 +7,43 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = routes.getRequestHandler(app);
 
-console.log(`./config/.env.${process.env.NODE_ENV || 'development'}`)
-console.log(process.env.DATABASE)
-console.log(process.env.TEST)
+const Book = require('./models/book')
 
 // Mongo config
-const DB = process.env.DATABASE.replace(
-  '<DB>',
-  dev ? process.env.MONGO_DEV_DB : process.env.MONGO_PROD_DB
-);
-mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('DB connection successful!'))
-  .catch(err => console.error(err))
+// const DB = process.env.DATABASE.replace(
+//   '<DB>',
+//   dev ? process.env.MONGO_DEV_DB : process.env.MONGO_PROD_DB
+// );
+// mongoose
+//   .connect(DB, {
+//     useNewUrlParser: true,
+//     useCreateIndex: true,
+//     useFindAndModify: false,
+//     useUnifiedTopology: true,
+//   })
+//   .then(() => console.log('DB connection successful!'))
+//   .catch(err => console.error(err))
 
 
 app.prepare()
 .then(() => {
   const server = express();
+
+
+  server.post('/api/v1/books', (req, res) => {
+    const bookData = req.body
+    const book = new Book(bookData)
+
+    book.save((err, createdBook) => {
+      if(err) {
+        return res.status(422).send(err)
+      }
+
+      return res.json(createdBook)
+    })
+  })
+
+
 
   server.get('*', (req, res) => {
     return handle(req, res)

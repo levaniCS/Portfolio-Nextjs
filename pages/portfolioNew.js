@@ -6,14 +6,14 @@ import { Row, Col } from 'reactstrap'
 import PortfolioCreateForm from '../components/portfolios/PortfolioNewForm'
 
 
-const PortfolioNew = () => {
+const PortfolioNew = (props) => {
 
   const savePortfolio = (portfolioData) => {
     alert(JSON.stringify(portfolioData, null, 2))
   }
 
   return (
-    <BaseLayout>
+    <BaseLayout {...props.auth}>
       <BasePage className="portfolio-create-page" title="Create new Portfolio">
       <Row>
         <Col>

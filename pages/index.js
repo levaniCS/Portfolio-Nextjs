@@ -6,8 +6,8 @@ import { Container, Row, Col } from 'reactstrap';
 
 const roles = ['Developer', 'Tech Lover', 'Team Player', 'Creative', 'React.js', 'Node.Js'];
 
- const Index = () => (
-  <BaseLayout className="cover" headerType="index">
+ const Index = (props) => (
+  <BaseLayout className="cover" headerType="index" {...props.auth}>
     <div className="main-section">
       <div className="background-image">
         <img src="/images/background-index.png" />
