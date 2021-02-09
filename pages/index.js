@@ -35,7 +35,11 @@ const roles = ['Developer', 'Tech Lover', 'Team Player', 'Creative', 'React.js',
           <Col md="6" className="hero-welcome-wrapper">
             <div className="hero-welcome-text">
               <h1>
-                Welcome to the portfolio website of Levan Sarishvili.
+                {props.auth.isAuthenticated && (
+                  <span>
+                  Welcome to the portfolio website of <b>{props.auth.user.name}</b>{' '}
+                  </span>
+                )}
                 Get informed, collaborate and discover projects I was working on through the years!
               </h1>
             </div>

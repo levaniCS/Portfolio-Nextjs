@@ -11,7 +11,7 @@ export default class MyApp extends App {
 
   static async getInitialProps({ Component, router, ctx }) {
     let pageProps = {}
-    const user = process.browser ? auth0.clientAuth() : auth0.serverAuth(ctx.req)
+    const user = process.browser ? await auth0.clientAuth() : await auth0.serverAuth(ctx.req)
 
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx)

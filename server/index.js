@@ -3,6 +3,9 @@ const next = require('next');
 const mongoose = require('mongoose')
 const routes = require('../routes');
 
+// Middleware
+const authService = require('./services/auth')
+
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = routes.getRequestHandler(app);
@@ -24,10 +27,25 @@ const Book = require('./models/book')
 //   .then(() => console.log('DB connection successful!'))
 //   .catch(err => console.error(err))
 
+const secretData = [
+  {
+    title: 'secredTitle 1',
+    desc: 'Plans how to  build spaceshiip'
+  },
+  {
+    title: 'secredTitle 2',
+    desc: 'Plans how to  build building'
+  }
+]
 
-app.prepare()
+
+app.prepare() 
 .then(() => {
-  const server = express();
+  const server = express()
+
+  server.get('/api/v1/secret', authService.checkJWT, (req, res) => {
+    return res.json(secretData)
+  })
 
 
   server.post('/api/v1/books', (req, res) => {
@@ -44,6 +62,15 @@ app.prepare()
   })
 
 
+  // // Handling errors
+  // server.use(function (err, req, res, next) {
+  //   if (err.name === 'UnauthorizedError') {
+  //     res.status(401).send({
+  //       title: 'Unauthorized',
+  //       detail: 'Unauthorized Access!'
+  //     })
+  //   }
+  // })
 
   server.get('*', (req, res) => {
     return handle(req, res)
