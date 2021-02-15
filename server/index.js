@@ -8,24 +8,25 @@ const authService = require('./services/auth')
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
+
 const handle = routes.getRequestHandler(app);
 
 const Book = require('./models/book')
 
 // Mongo config
-// const DB = process.env.DATABASE.replace(
-//   '<DB>',
-//   dev ? process.env.MONGO_DEV_DB : process.env.MONGO_PROD_DB
-// );
-// mongoose
-//   .connect(DB, {
-//     useNewUrlParser: true,
-//     useCreateIndex: true,
-//     useFindAndModify: false,
-//     useUnifiedTopology: true,
-//   })
-//   .then(() => console.log('DB connection successful!'))
-//   .catch(err => console.error(err))
+const DB = process.env.DATABASE.replace(
+  '<DB>',
+  dev ? process.env.MONGO_DEV_DB : process.env.MONGO_PROD_DB
+);
+mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('DB connection successful!'))
+  .catch(err => console.error(err))
 
 const secretData = [
   {
@@ -42,15 +43,12 @@ const secretData = [
 app.prepare() 
 .then(() => {
   const server = express()
-
-  server.get('/api/v1/secret', authService.checkJWT, (req, res) => {
-    return res.json(secretData)
-  })
-
-
+  //* when we have body larger than 10kb basically not be accepted
+  server.use(express.json({ limit: '10kb' }));
+  
   server.post('/api/v1/books', (req, res) => {
     const bookData = req.body
-    const book = new Book(bookData)
+    const book = new Book(bookData) 
 
     book.save((err, createdBook) => {
       if(err) {
@@ -59,6 +57,13 @@ app.prepare()
 
       return res.json(createdBook)
     })
+  })
+  server.get('/api/v1/secret', authService.checkJWT, (req, res) => {
+    return res.json(secretData)
+  })
+
+  server.get('/api/v1/onlySiteOwner', authService.checkJWT, authService.checkRole('siteOwner'), (req, res) => {
+    return res.json(secretData)
   })
 
 
