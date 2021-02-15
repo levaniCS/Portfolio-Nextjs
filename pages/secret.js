@@ -29,7 +29,9 @@ const Secret = (props) => {
 // Get request object from context
 Secret.getInitialProps = async({req}) => {
   const secretData = await getSecretData(req)
+
+  console.log(secretData)
   return { secretData }
 }
 
-export default useWithAuth(Secret)
+export default useWithAuth()(Secret)

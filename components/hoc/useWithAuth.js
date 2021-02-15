@@ -2,9 +2,10 @@ import React from 'react'
 import BaseLayout from '../layouts/BaseLayout';
 import BasePage from '../BasePage'
 
-const useWithAuth = (Component) => {
-  return class withAuth extends React.Component {
+const namespace = 'http://localhost:3000/'
 
+const useWithAuth = role => Component => 
+class withAuth extends React.Component {
     static async getInitialProps(args) {
       const pageProps = await Component.getInitialProps && await Component.getInitialProps(args)
 
@@ -12,11 +13,23 @@ const useWithAuth = (Component) => {
     }
 
     renderProtectedPage() {
-      const { isAuthenticated } = this.props.auth
+      const { isAuthenticated, user } = this.props.auth
+      const userRole = user && user[`${namespace}role`]
+      let isAuthorized = false 
 
-      if(isAuthenticated) {
-        return <Component {...this.props}/>
+
+      console.log(role, userRole)
+      console.log(role, isAuthenticated)
+      if(role) {
+        if(userRole && userRole === role) 
+          isAuthorized = true
       } else {
+        isAuthorized = true
+      }
+
+      console.log('isAuthorizdd', isAuthorized)
+
+      if(!isAuthenticated) {
         return (
           <BaseLayout {...this.props.auth}>
             <BasePage>
@@ -24,13 +37,24 @@ const useWithAuth = (Component) => {
             </BasePage>
           </BaseLayout>
         )
+      } else if(!isAuthorized) {
+        return (
+          <BaseLayout {...this.props.auth}>
+            <BasePage>
+              <h1> You are not authorized. You dont have permissions to visit this page </h1>
+            </BasePage>
+          </BaseLayout>
+        )
+      } else {
+        return <Component {...this.props}/>
       }
+
     } 
 
     render() {
       return this.renderProtectedPage()
     }
   }
-}
+
 
 export default useWithAuth

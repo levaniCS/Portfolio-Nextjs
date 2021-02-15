@@ -14,4 +14,4 @@ const Blogs = (props) => {
   )
 }
 
-export default useWithAuth(Blogs)
+export default useWithAuth()(Blogs)

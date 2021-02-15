@@ -37,4 +37,4 @@ class Portfolio extends React.Component {
   }
 }
 
-export default withRouter(Portfolio);
+export default withRouter()(Portfolio);
