@@ -4,14 +4,16 @@ const mongoose = require('mongoose')
 const routes = require('../routes');
 
 // Middleware
+const globalErrorHandler = require('./controllers/errorController')
 const authService = require('./services/auth')
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
-
 const handle = routes.getRequestHandler(app);
 
-const Book = require('./models/book')
+// ROUTES
+const bookRoutes = require('./routes/book')
+const portfolioRoutes = require('./routes/portfolio')
 
 // Mongo config
 const DB = process.env.DATABASE.replace(
@@ -46,18 +48,11 @@ app.prepare()
   //* when we have body larger than 10kb basically not be accepted
   server.use(express.json({ limit: '10kb' }));
   
-  server.post('/api/v1/books', (req, res) => {
-    const bookData = req.body
-    const book = new Book(bookData) 
+  // Routes
+  server.use('/api/v1/books', bookRoutes)
+  server.use('/api/v1/portfolios', portfolioRoutes)
 
-    book.save((err, createdBook) => {
-      if(err) {
-        return res.status(422).send(err)
-      }
-
-      return res.json(createdBook)
-    })
-  })
+  
   server.get('/api/v1/secret', authService.checkJWT, (req, res) => {
     return res.json(secretData)
   })
@@ -66,16 +61,8 @@ app.prepare()
     return res.json(secretData)
   })
 
-
-  // // Handling errors
-  // server.use(function (err, req, res, next) {
-  //   if (err.name === 'UnauthorizedError') {
-  //     res.status(401).send({
-  //       title: 'Unauthorized',
-  //       detail: 'Unauthorized Access!'
-  //     })
-  //   }
-  // })
+  //! ERROR HANDLING MIDDLEWARE
+  server.use(globalErrorHandler);
 
   server.get('*', (req, res) => {
     return handle(req, res)

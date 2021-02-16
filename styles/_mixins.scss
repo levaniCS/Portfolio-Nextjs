@@ -1,0 +1,23 @@
+$bg: #000;
+
+@function text($color) {
+  @if (lightness($color) > 60) {
+    @return #000;
+  } @else {
+    @return #fff;
+  }
+}
+
+@mixin set-text-color($color) {
+  background-color: $color;
+  color: text($color);
+}
+
+.instance {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @include set-text-color($bg)
+}

@@ -7,57 +7,53 @@ import {
   CardHeader, 
   CardText, CardTitle
 } from 'reactstrap'
-import axios from 'axios';
 
-class Portfolios extends React.Component {
+import { getPortfolios } from '../actions'
 
-  static async getInitialProps() {
-    let posts = [];
+const Portfolios = (props) => {
 
-    try {
-      const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
-      posts = response.data;
-    } catch(err) {
-      console.error(err);
-    }
-
-    return {posts: posts.splice(0, 10)};
-  }
-
-  renderPosts(posts) {
-    return posts.map((post, index) => {
-      return (
-        <Col md="4" key={index}>
-          <span>
-            <Card className="portfolio-card">
-              <CardHeader className="portfolio-card-header">Some Position {index}</CardHeader>
-              <CardBody>
-                <p className="portfolio-card-city"> Some Location {index} </p>
-                <CardTitle className="portfolio-card-title">Some Company {index}</CardTitle>
-                <CardText className="portfolio-card-text">Some Description {index}</CardText>
-                <div className="readMore"> </div>
-              </CardBody>
-            </Card>
-          </span>
-        </Col>
-      )
-    })
-  }
-
-  render() {
-    const { posts } = this.props;
-
-    return (
-      <BaseLayout {...this.props.auth}>
-        <BasePage className="portfolio-page" title="Portfolios">
-          <h1> I am Portfolios Page </h1>
-          <Row>
-            { this.renderPosts(posts) }
-          </Row>
-        </BasePage>
-      </BaseLayout>
+  const renderPortfolios = (portfolios) => 
+    portfolios.map(portfolio =>
+      <Col md="4" key={portfolio._id}>
+        <span>
+          <Card className="portfolio-card">
+            <CardHeader className="portfolio-card-header">{portfolio.position}</CardHeader>
+            <CardBody>
+              <p className="portfolio-card-city">{portfolio.location}</p>
+              <CardTitle className="portfolio-card-title">{portfolio.company}</CardTitle>
+              <CardText className="portfolio-card-text">{portfolio.description}</CardText>
+              <div className="readMore"> </div>
+            </CardBody>
+          </Card>
+        </span>
+      </Col>
     )
+
+  const { portfolios } = props;
+
+  return (
+    <BaseLayout {...props.auth}>
+      <BasePage className="portfolio-page" title="Portfolios">
+        <h1> I am Portfolios Page </h1>
+        <Row>
+          {renderPortfolios(portfolios)}
+        </Row>
+      </BasePage>
+    </BaseLayout>
+  )
+}
+
+// Get request object from context
+Portfolios.getInitialProps = async({req}) => {
+  try {
+    const res = await getPortfolios(req)
+    const portfolios = res.data.data
+
+    return { portfolios }
+  } catch(error) {
+    console.error(error)
   }
+  
 }
 
 export default Portfolios;

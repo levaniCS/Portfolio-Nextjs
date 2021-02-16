@@ -13,7 +13,11 @@ const setAuthHeader = (req) => {
   return undefined
 }
 
-export const getSecretData = async (req) => {
-  const url = `${BASE_URL}/secret`
-  return await axios.get(url, setAuthHeader(req)).then(res => res.data)
-}
+export const getSecretData = async (req) => (
+  await axios.get(`${BASE_URL}/secret`, setAuthHeader(req)).then(res => res.data)
+)
+
+
+export const getPortfolios = async(req) => (
+  await axios.get(`${BASE_URL}/portfolios`, setAuthHeader(req)).then(res => res.data)
+)
