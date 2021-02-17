@@ -1,6 +1,6 @@
 import React from 'react'
 import { Formik, Form, Field } from 'formik';
-import { Button } from 'reactstrap';
+import { Button, Alert } from 'reactstrap';
 
 import FormDate from '../../components/form/FormDate'
 import FormInput from '../../components/form/FormInput'
@@ -65,6 +65,11 @@ const PortfolioNewForm = (props) => {
               canBeDisabled
               label="End Date "
             />
+            {props.error && (
+              <Alert color="danger">
+                {props.error}
+              </Alert>
+            )}
             
             <Button color="success" size="lg" type="submit" disabled={isSubmitting}>
               Create

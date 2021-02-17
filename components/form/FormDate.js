@@ -3,8 +3,6 @@ import DatePicker from "react-datepicker"
 import { FormGroup, Label, Button } from 'reactstrap';
 
 import "react-datepicker/dist/react-datepicker.css"
-// CSS Modules, react-datepicker-cssmodules.css
-// import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 
 const FormDatePicker = (props) => {
   const [dateValue, setDateValue] = useState(new Date())
@@ -19,8 +17,6 @@ const FormDatePicker = (props) => {
     const { name } = props.field
 
     setFieldValue(name, date, true)
-
-    console.log(name, touched, date)
     setFieldTouched(name, touched, true)
   }
   

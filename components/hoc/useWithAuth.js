@@ -18,16 +18,12 @@ class withAuth extends React.Component {
       let isAuthorized = false 
 
 
-      console.log(role, userRole)
-      console.log(role, isAuthenticated)
       if(role) {
         if(userRole && userRole === role) 
           isAuthorized = true
       } else {
         isAuthorized = true
       }
-
-      console.log('isAuthorizdd', isAuthorized)
 
       if(!isAuthenticated) {
         return (

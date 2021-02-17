@@ -7,12 +7,13 @@ import {
   CardHeader, 
   CardText, CardTitle
 } from 'reactstrap'
-
+import useWithAuth from '../components/hoc/useWithAuth'
 import { getPortfolios } from '../actions'
 
 const Portfolios = (props) => {
+  const portfolios = props.pageProps.portfolios
 
-  const renderPortfolios = (portfolios) => 
+  const renderPortfolios = () => 
     portfolios.map(portfolio =>
       <Col md="4" key={portfolio._id}>
         <span>
@@ -29,14 +30,12 @@ const Portfolios = (props) => {
       </Col>
     )
 
-  const { portfolios } = props;
-
   return (
     <BaseLayout {...props.auth}>
       <BasePage className="portfolio-page" title="Portfolios">
         <h1> I am Portfolios Page </h1>
         <Row>
-          {renderPortfolios(portfolios)}
+          {renderPortfolios()}
         </Row>
       </BasePage>
     </BaseLayout>
@@ -44,9 +43,9 @@ const Portfolios = (props) => {
 }
 
 // Get request object from context
-Portfolios.getInitialProps = async({req}) => {
+Portfolios.getInitialProps = async() => {
   try {
-    const res = await getPortfolios(req)
+    const res = await getPortfolios()
     const portfolios = res.data.data
 
     return { portfolios }
@@ -56,4 +55,4 @@ Portfolios.getInitialProps = async({req}) => {
   
 }
 
-export default Portfolios;
+export default useWithAuth()(Portfolios);

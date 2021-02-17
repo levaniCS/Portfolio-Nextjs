@@ -4,7 +4,7 @@ export const validateInputs = (values) => {
   const errors = {};
 
   Object.keys(values).forEach(key => {
-    if(!values[key] && key !== 'startDate' && key !== 'endDate') {
+    if(!values[key] && key !== 'startDate' ) {
       errors[key] = `Field ${key} is required!`
     }
   })

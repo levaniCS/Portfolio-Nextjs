@@ -1,5 +1,6 @@
 import React from 'react';
-import { withRouter } from 'next/router'
+
+import useWithAuth from '../components/hoc/useWithAuth'
 import axios from 'axios';
 
 import BaseLayout from '../components/layouts/BaseLayout';
@@ -37,4 +38,4 @@ class Portfolio extends React.Component {
   }
 }
 
-export default withRouter()(Portfolio);
+export default useWithAuth()(Portfolio);

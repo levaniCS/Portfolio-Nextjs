@@ -1,5 +1,8 @@
 $bg: #000;
 
+//! Interesting code snippets for css developers
+
+// #1
 @function text($color) {
   @if (lightness($color) > 60) {
     @return #000;
@@ -11,6 +14,12 @@ $bg: #000;
 @mixin set-text-color($color) {
   background-color: $color;
   color: text($color);
+}
+
+// #2
+@mixin centerAbsolutely {
+  display: grid; 
+  place-items:center;
 }
 
 .instance {
