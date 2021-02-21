@@ -26,6 +26,6 @@ export const INITIAL_VALUES = {
   location: '',
   position: '',
   description: '', // Text Area
-  startDate: '', // Date
-  endDate: '' // Date
+  startDate: new Date(), // Date
+  endDate: new Date() // Date
 }

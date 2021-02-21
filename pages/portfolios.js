@@ -3,39 +3,38 @@ import BaseLayout from '../components/layouts/BaseLayout';
 import BasePage from '../components/BasePage'
 import { 
   Col, Row,
-  Card, CardBody, 
-  CardHeader, 
-  CardText, CardTitle
+  Button
 } from 'reactstrap'
 import useWithAuth from '../components/hoc/useWithAuth'
 import { getPortfolios } from '../actions'
 
-const Portfolios = (props) => {
-  const portfolios = props.pageProps.portfolios
+import { Router } from '../routes'
+import PortfolioCard from '../components/portfolios/portfolioCard'
 
-  const renderPortfolios = () => 
-    portfolios.map(portfolio =>
-      <Col md="4" key={portfolio._id}>
-        <span>
-          <Card className="portfolio-card">
-            <CardHeader className="portfolio-card-header">{portfolio.position}</CardHeader>
-            <CardBody>
-              <p className="portfolio-card-city">{portfolio.location}</p>
-              <CardTitle className="portfolio-card-title">{portfolio.company}</CardTitle>
-              <CardText className="portfolio-card-text">{portfolio.description}</CardText>
-              <div className="readMore"> </div>
-            </CardBody>
-          </Card>
-        </span>
-      </Col>
-    )
+const Portfolios = (props) => {
+  const portfoliosData = props.pageProps.portfolios
+  const { isAuthenticated, isSiteOwner } = props.auth
 
   return (
     <BaseLayout {...props.auth}>
       <BasePage className="portfolio-page" title="Portfolios">
-        <h1> I am Portfolios Page </h1>
+        {isAuthenticated && isSiteOwner && (
+          <Button 
+            onClick={() => Router.pushRoute('/portfolioNew')} 
+            color="success" 
+            className="create-port-btn"
+          >
+            Create Portfolio
+          </Button>
+        )}
         <Row>
-          {renderPortfolios()}
+          {
+            portfoliosData.map(portfolio => (
+              <Col md="4" key={portfolio._id}>
+                <PortfolioCard isValidUser={isAuthenticated && isSiteOwner} portfolio={portfolio}/>
+              </Col>
+            ))
+          }
         </Row>
       </BasePage>
     </BaseLayout>

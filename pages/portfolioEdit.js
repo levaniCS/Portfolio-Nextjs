@@ -5,16 +5,16 @@ import BasePage from '../components/BasePage'
 import { Row, Col } from 'reactstrap'
 import PortfolioCreateForm from '../components/portfolios/PortfolioNewForm'
 
-import { INITIAL_VALUES } from '../utils/validate'
-import { createPortfolio } from '../actions'
+import { getPortfolioById, updatePortfolio } from '../actions'
 import { Router } from '../routes'
 
-const PortfolioNew = (props) => {
+const PortfolioEdit = (props) => {
   const [error, setError] = useState(undefined)
+  const { portfolio } = props
 
-  const savePortfolio = async (portfolioData, { setSubmitting }) => {
+  const updatePortfolioNew = async (portfolioData, { setSubmitting }) => {
     setSubmitting(true)
-    createPortfolio(portfolioData)
+    updatePortfolio(portfolioData)
       .then(() => {
         setError(undefined)
         setSubmitting(false)
@@ -27,16 +27,15 @@ const PortfolioNew = (props) => {
       })
   }
 
-
   return (
     <BaseLayout {...props.auth}>
-      <BasePage className="portfolio-create-page" title="Create new Portfolio">
+      <BasePage className="portfolio-create-page" title="Update Portfolio">
       <Row>
         <Col>
           <PortfolioCreateForm 
             error={error} 
-            onSubmit={savePortfolio} 
-            initialValues={INITIAL_VALUES}
+            onSubmit={updatePortfolioNew}
+            initialValues={portfolio}
           />
         </Col>
       </Row>
@@ -45,4 +44,17 @@ const PortfolioNew = (props) => {
   )
 }
 
-export default PortfolioNew;
+// Get request object from context
+PortfolioEdit.getInitialProps = async({query}) => {
+  try {
+    const res = await getPortfolioById(query.id)
+    const portfolio = res.data.data
+
+    return { portfolio }
+  } catch(error) {
+    console.error(error)
+  }
+
+}
+
+export default PortfolioEdit;

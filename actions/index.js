@@ -38,17 +38,24 @@ export const getSecretData = async (req) => (
 export const getPortfolios = async() => (
   await axiosInstance.get(`/portfolios`).then(res => res.data)
 )
-
-export const createPortfolio = async(portfolioData) => (
-  await axiosInstance.post(`/portfolios`, portfolioData, setAuthHeader()).then(res => res.data)
+export const getPortfolioById = async(id, req) => (
+  await axiosInstance.get(`/portfolios/${id}`).then(res => res.data)
 )
 
-export const updatePortfolio = async(body, portfolioId) => (
-  await axiosInstance.get(`/portfolios${portfolioId}`, body, setAuthHeader(req)).then(res => res.data)
+export const createPortfolio = async(portfolioData) => (
+  await axiosInstance.post(`/portfolios`, portfolioData, setAuthHeader())
+    .then(res => res.data)
+    .catch(error => rejectPromise(error))
+)
+
+export const updatePortfolio = async(portfolioData) => (
+  await axiosInstance.patch(`/portfolios/${portfolioData._id}`, portfolioData, setAuthHeader())
+    .then(res => res.data)
+    .catch(error => rejectPromise(error))
 )
 
 export const deletePortfolio = async(portfolioId) => (
-  await axiosInstance.get(`/portfolios/${portfolioId}`, setAuthHeader(req))
+  await axiosInstance.delete(`/portfolios/${portfolioId}`, setAuthHeader())
     .then(res => res.data)
     .catch(error => rejectPromise(error))
 )
