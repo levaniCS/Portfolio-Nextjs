@@ -9,7 +9,7 @@ import useWithAuth from '../components/hoc/useWithAuth'
 
 const Blogs = (props) => {
   return (
-    <BaseLayout headerType={'landing'} className="blog-listing-page">
+    <BaseLayout {...props.auth} headerType={'landing'} className="blog-listing-page">
       <div className="masthead">
         <div className="overlay"></div>
         <Container>
