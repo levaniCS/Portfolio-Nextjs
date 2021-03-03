@@ -14,6 +14,23 @@ exports.deleteOne = (Model) =>
     });
   });
 
+exports.getOne = (Model) =>
+catchAsync(async (req, res, next) => {
+  let query = Model.findById(req.params.id).select('-__v');
+  const doc = await query;
+
+  if (!doc) {
+    return next(new AppError('No document found with that ID', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: doc,
+    },
+  });
+});
+
 exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
@@ -49,9 +66,10 @@ exports.createOne = (Model, needsUser = false) =>
     });
   });
 
-exports.getAll = (Model) =>
+exports.getAll = (Model, additionalFields = {}) =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.find({});
+
+    const doc = await Model.find({}).sort(additionalFields);
     // SEND RESPONSE
     res.status(200).json({
       status: 'success',

@@ -4,16 +4,16 @@ import { Button, Alert } from 'reactstrap';
 
 import FormDate from '../../components/form/FormDate'
 import FormInput from '../../components/form/FormInput'
-import { validateInputs, INITIAL_VALUES } from '../../utils/validate'
+import { validateInputs } from '../../utils/validate'
 
 
-const PortfolioNewForm = (props) => {
+const PortfolioNewForm = ({ onSubmit, error, initialValues}) => {
   return (
     <div>
       <Formik
-        initialValues={INITIAL_VALUES}
+        initialValues={initialValues}
         validate={validateInputs}
-        onSubmit={props.onSubmit}
+        onSubmit={onSubmit}
       >
         {({ isSubmitting }) => (
           <Form>
@@ -56,23 +56,25 @@ const PortfolioNewForm = (props) => {
             <Field 
               component={FormDate} 
               name="startDate"
-              label="Start Date "
+              label="Start Date"
+              initialDate={initialValues.startDate}
             />
             
             <Field 
               component={FormDate} 
               name="endDate"
               canBeDisabled
-              label="End Date "
+              label="End Date"
+              initialDate={initialValues.endDate}
             />
-            {props.error && (
+            {error && (
               <Alert color="danger">
-                {props.error}
+                {error}
               </Alert>
             )}
             
             <Button color="success" size="lg" type="submit" disabled={isSubmitting}>
-              Create
+              Submit
             </Button>
           </Form>
         )}

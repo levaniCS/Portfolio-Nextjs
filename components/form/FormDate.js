@@ -5,12 +5,14 @@ import { FormGroup, Label, Button } from 'reactstrap';
 import "react-datepicker/dist/react-datepicker.css"
 
 const FormDatePicker = (props) => {
-  const [dateValue, setDateValue] = useState(new Date())
-  const [isHidden, setIsHidden] = useState(false)
+  const initDate = props.initialDate ? new Date(props.initialDate) : new Date()
+  const initHidden = props.initialDate ? false : true
+  const [dateValue, setDateValue] = useState(initDate)
+  const [isHidden, setIsHidden] = useState(initHidden)
   const { 
     field,
     form: { touched, errors, setFieldValue, setFieldTouched },
-    canBeDisabled
+    canBeDisabled,
   } = props
 
   const setFieldValueAndTouched = (date, touched) => {
