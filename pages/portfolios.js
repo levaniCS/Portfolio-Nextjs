@@ -12,7 +12,7 @@ import { Router } from '../routes'
 import PortfolioCard from '../components/portfolios/portfolioCard'
 
 const Portfolios = (props) => {
-  const portfoliosData = props.pageProps.portfolios
+  const portfoliosData = props.pageProps ? props.pageProps.portfolios : []
   const { isAuthenticated, isSiteOwner } = props.auth
 
   return (

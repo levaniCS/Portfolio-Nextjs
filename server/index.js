@@ -16,10 +16,7 @@ const bookRoutes = require('./routes/book')
 const portfolioRoutes = require('./routes/portfolio')
 
 // Mongo config
-const DB = process.env.DATABASE.replace(
-  '<DB>',
-  dev ? process.env.MONGO_DEV_DB : process.env.MONGO_PROD_DB
-);
+const DB = process.env.DATABASE
 mongoose
   .connect(DB, {
     useNewUrlParser: true,

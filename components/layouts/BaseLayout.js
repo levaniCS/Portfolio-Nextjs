@@ -9,7 +9,7 @@ const BaseLayout = (props) => {
   return (
     <>
       <Head>
-        <title>Levani Sar || Personal</title>
+        <title>Student bank</title>
         <link 
           rel="stylesheet" 
           href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" 
